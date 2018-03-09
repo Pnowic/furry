@@ -62,13 +62,15 @@ section#over {
     background-color: rgba(255, 255, 0, 0.75);
 }
 
-section#over pre {
+section#over p {
     display: inline-block;
     width: 100%;
     text-align: center;
-    font-size: 10px;
+    font-size: 100px;
     font-weight: bolder;
     color: brown;
+    line-height: 100px;
+
 }
 
 .invisible {

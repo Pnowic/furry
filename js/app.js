@@ -52,8 +52,11 @@ var Game = function() {
         else if (this.furry.direction === 'down') {
             this.furry.y = this.furry.y + 1;
         }
+        this.gameOver();
         this.showFurry();
         this.checkCoinCollision();
+
+
     };
 
     this.hideVisibleFurry = function (){
@@ -87,13 +90,21 @@ var Game = function() {
             var currentCoin = document.querySelector('div.coin');
             currentCoin.classList.remove('coin');
             this.score = this.score + 1;
-            document.querySelector("strong").innerText = this.score;
+            document.querySelector('strong').innerText = this.score;
             this.coin = new Coin();
             this.showCoin()
         }
-    }
+    };
 
+    this.gameOver = function () {
+        if (this.furry.x < 0 || this.furry.y < 0 || this.furry.x > 9 || this.furry.y > 9){
+            clearInterval(this.interval250);
+            document.querySelector('#over').classList.remove('invisible');
+            document.querySelector('p strong').innerText = this.score;
+            this.hideVisibleFurry();
 
+        }
+    };
 
 
 
