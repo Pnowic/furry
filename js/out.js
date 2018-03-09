@@ -122,13 +122,45 @@ var Game = function() {
             this.furry.y = this.furry.y + 1;
         }
         this.showFurry();
+        this.checkCoinCollision();
     };
 
     this.hideVisibleFurry = function (){
         var furryDiv = document.querySelector('div.furry');
         furryDiv.classList.remove('furry');
-    }
+    };
 
+    this.turnFurry = function (event){
+        switch (event.which) {
+            case 37:
+                this.furry.direction = 'left';
+                break;
+
+            case 38:
+                this.furry.direction = 'up';
+                break;
+
+            case 39:
+                this.furry.direction = 'right';
+                break;
+
+            case 40:
+                this.furry.direction = 'down';
+                break;
+        }
+    };
+
+
+    this.checkCoinCollision = function(){
+        if (this.furry.x === this.coin.x && this.furry.y === this.coin.y){
+            var currentCoin = document.querySelector('div.coin');
+            currentCoin.classList.remove('coin');
+            this.score = this.score + 1;
+            document.querySelector("strong").innerText = this.score;
+            this.coin = new Coin();
+            this.showCoin()
+        }
+    }
 
 
 
@@ -141,6 +173,10 @@ var game = new Game();
 game.showFurry();
 game.showCoin();
 game.startGame();
+
+document.addEventListener('keydown', function(event){
+    game.turnFurry(event);
+});
 
 /***/ })
 /******/ ]);
