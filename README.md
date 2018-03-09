@@ -1,0 +1,2 @@
+# furry
+simple JS game
