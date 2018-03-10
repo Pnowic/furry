@@ -103,6 +103,13 @@ var Game = function() {
         }, 250);
     };
 
+    var startButton = document.querySelector("#start-button");
+
+    startButton.addEventListener("click", function() {
+        self.startGame();
+        startButton.remove();
+    }, false);
+
 };
 
 module.exports = Game;

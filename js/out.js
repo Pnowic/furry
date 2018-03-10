@@ -72,7 +72,6 @@ var Game = __webpack_require__(1);
 var game = new Game();
 game.showFurry();
 game.showCoin();
-game.startGame();
 
 document.addEventListener('keydown', function(event){
     game.turnFurry(event);
@@ -186,6 +185,13 @@ var Game = function() {
             self.moveFurry();
         }, 250);
     };
+
+    var startButton = document.querySelector("#start-button");
+
+    startButton.addEventListener("click", function() {
+        self.startGame();
+        startButton.remove();
+    }, false);
 
 };
 
