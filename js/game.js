@@ -11,6 +11,7 @@ var Game = function() {
     self.furry = new Furry();
     self.coin = new Coin();
     self.score = 0;
+    self.speed = 700;
 
     self.furryIndex = function (x, y) {
         return x + (y * 10);
@@ -22,14 +23,15 @@ var Game = function() {
     };
 
     self.showFurry = function () {
-
+        self.hideVisibleFurry();
         self.board[ self.furryIndex(self.furry.x,self.furry.y) ].classList.add('furry');
     };
 
     self.hideVisibleFurry = function (){
         var furryDiv = document.querySelector('div.furry');
+        if(furryDiv){
             furryDiv.classList.remove('furry');
-
+        }
     };
 
     self.showCoin = function () {
@@ -37,7 +39,6 @@ var Game = function() {
     };
 
     self.moveFurry = function() {
-        self.hideVisibleFurry();
         if (self.furry.direction === 'right') {
             self.furry.x = self.furry.x + 1;
         }
@@ -51,9 +52,12 @@ var Game = function() {
             self.furry.y = self.furry.y + 1;
         }
 
+
+        self.startGame();
         self.gameOver();
         self.showFurry();
         self.checkCoinCollision();
+
     };
 
     self.turnFurry = function (event){
@@ -76,6 +80,10 @@ var Game = function() {
         }
     };
 
+    document.addEventListener('keydown', function(event){
+        self.turnFurry(event);
+    });
+
     self.checkCoinCollision = function(){
         if (self.furry.x === self.coin.x && self.furry.y === self.coin.y){
             var currentCoin = document.querySelector('div.coin');
@@ -83,13 +91,14 @@ var Game = function() {
             self.score = self.score + 1;
             document.querySelector('strong').innerText = self.score;
             self.coin = new Coin();
-            self.showCoin()
+            self.showCoin();
+            self.speed = self.speed - 20;
         }
     };
 
     self.gameOver = function () {
         if (self.furry.x < 0 || self.furry.y < 0 || self.furry.x > 9 || self.furry.y > 9){
-            clearInterval(self.interval250);
+            self.stopGame();
             document.querySelector('#over').classList.remove('invisible');
             document.querySelector('p strong').innerText = self.score;
             self.hideVisibleFurry();
@@ -98,9 +107,13 @@ var Game = function() {
     };
 
     self.startGame = function() {
-        self.interval250 = setInterval(function() {
+        self.startMove = setTimeout(function() {
             self.moveFurry();
-        }, 250);
+        }, self.speed);
+    };
+
+    self.stopGame = function() {
+        clearTimeout(self.startMove);
     };
 
     var startButton = document.querySelector("#start-button");
@@ -109,6 +122,8 @@ var Game = function() {
         self.startGame();
         startButton.remove();
     }, false);
+
+
 
 };
 
