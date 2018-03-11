@@ -121,3 +121,12 @@ button:hover {
     87.5% {color: #cc4e00}
     100% {color: #ffffff}
 }
+
+.light {
+    animation: light 1s 1;
+}
+
+@keyframes light {
+    from {border-radius: 50%; box-shadow: 0 0 0 0 #BF8B00}
+    to {box-shadow: 0 0 50px 50px transparent;}
+}

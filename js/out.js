@@ -92,7 +92,7 @@ var Game = function() {
     self.furry = new Furry();
     self.coin = new Coin();
     self.score = 0;
-    self.speed = 700;
+    self.speed = 650;
     self.isGameOver = false;
 
     self.furryIndex = function (x, y) {
@@ -172,12 +172,13 @@ var Game = function() {
     self.checkCoinCollision = function(){
         if (self.furry.x === self.coin.x && self.furry.y === self.coin.y){
             var currentCoin = document.querySelector('div.coin');
+            currentCoin.classList.add('light');
             currentCoin.classList.remove('coin');
             self.score = self.score + 1;
             document.querySelector('strong').innerText = self.score;
             self.coin = new Coin();
             self.showCoin();
-            self.speed = self.speed - 20;
+            self.speed = self.speed - 15;
         }
     };
 
@@ -230,7 +231,7 @@ var Game = function() {
     startButton.addEventListener("click", function() {
         self.startGame();
         startButton.remove();
-    }, false);
+    });
 
 
 };
