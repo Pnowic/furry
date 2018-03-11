@@ -12,6 +12,7 @@ var Game = function() {
     self.coin = new Coin();
     self.score = 0;
     self.speed = 700;
+    self.isGameOver = false;
 
     self.furryIndex = function (x, y) {
         return x + (y * 10);
@@ -52,12 +53,15 @@ var Game = function() {
             self.furry.y = self.furry.y + 1;
         }
 
+        self.gameOver();
+
+        if (self.isGameOver === true) {
+            return;
+        }
 
         self.startGame();
-        self.gameOver();
         self.showFurry();
         self.checkCoinCollision();
-
     };
 
     self.turnFurry = function (event){
@@ -98,12 +102,36 @@ var Game = function() {
 
     self.gameOver = function () {
         if (self.furry.x < 0 || self.furry.y < 0 || self.furry.x > 9 || self.furry.y > 9){
-            self.stopGame();
-            document.querySelector('#over').classList.remove('invisible');
-            document.querySelector('p strong').innerText = self.score;
+            self.isGameOver = true;
             self.hideVisibleFurry();
+            self.stopGame();
+            self.createScoreBoard();
 
         }
+    };
+
+    self.createScoreBoard = function() {
+        var scoreBoard = document.querySelector('#board');
+        var score = document.createElement('div');
+        var wrapperScore = document.createElement('div');
+        wrapperScore.className = "wrapperScore";
+        score.innerText = "GAME OVER YOUR SCORE: " + self.score;
+        for (var i = 0; i < self.board.length; i++) {
+            self.board[i].classList.add('invisible');
+        }
+        scoreBoard.appendChild(wrapperScore);
+        wrapperScore.appendChild(score);
+        self.newGame();
+    };
+
+    self.newGame = function() {
+        var newGame = document.createElement("button");
+        var scoreBoard = document.querySelector("#board .wrapperScore");
+        newGame.innerText = "PLAY AGAIN !";
+        newGame.addEventListener("click", function() {
+            location.reload(); //laduje strone ponownie
+        });
+        scoreBoard.appendChild(newGame);
     };
 
     self.startGame = function() {
@@ -116,13 +144,12 @@ var Game = function() {
         clearTimeout(self.startMove);
     };
 
-    var startButton = document.querySelector("#start-button");
+    var startButton = document.querySelector(".start-button");
 
     startButton.addEventListener("click", function() {
         self.startGame();
         startButton.remove();
     }, false);
-
 
 
 };
